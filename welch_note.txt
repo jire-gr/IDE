@@ -1,0 +1,419 @@
+1.Qt 是一个著名的 C++ 应用程序框架。
+2.API（Application Programming Interface,应用程序编程接口）
+3.API映射：API映射是说，界面库使用同一套 API，将其映射到不同的底层平台上面。
+4.想要学习 Qt 开发，首先要搭建 Qt 开发环境。Qt Creator：基于 Qt 构建的一个轻量级 IDE，现在最新版是 2.5.2，
+5.信号槽要求信号和槽的参数类型一致，槽函数的参数比信号的多，这是不允许的
+6.Qt 5 模块分为 Essentials Modules 和 Add-on Modules 两部分。前者是基础模块，在所有平台上都可用；后者是扩展模块，
+
+7.Window Title，也就是标题栏，
+  Menu Bar，也就是菜单栏
+  Status Bar，称为状态栏
+
+通常我们的程序主窗口会继承自QMainWindow，以便获得QMainWindow提供的各种便利的函数。
+8.QMainWindow通常只作为“主窗口”，对话框窗口则更多地使用QDialog类
+9.event()函数主要用于事件的分发。将事件对象按照它们不同的类型，分发给不同的事件处理器（event handler）。
+函数返回值是 bool 类型。如果传入的事件已被识别并且处理，则需要返回 true，否则返回 false。
+
+2023.5.17
+1.connect(),的信号或者槽有歧义时，用void（Teacher类：：*teachersignals）（指明函数类型Qstring）=&Teacher::hungry;//connect()里面的信号就用teachersignals表示了
+2.将Qstring转化为*char//"宫保鸡丁“-宫保鸡丁//.toUtf8().data()
+3.lambta [](){}
+4.铆接部件，=浮动窗口
+5.某一API接口能有多个，则addToolBar();QToolBar * toolBar = new QToolBar(this);
+只能有一个的话代码,则setMenuBar()；QMenuBar * bar = menuBar();
+6.资源文件：对项目添加新文件Qt->Qt Resourse file.
+对res.qrc右键-open in edit,添加前缀名”/“，添加文件。
+7.模态（不允许其他操作）和非模态对话框
+
+2023.5.18
+1.其他标准对话框
+  QMessageBox :: critical/information/question/warning 对话框
+  QFileDialog :: getOpenFileName(this,"打开文件","D:/workspace","*.docx");
+  QColorDialog:: getColor(QColor(255,0,0));
+  QFontDialog :: getFont(&ok,QFont("华文仿宋",36));
+2.界面布局，放进widget组件，再布局（垂直，水平，栅格），用弹簧修改间距可以fixed固定。窗口固定就让宽高最大=最小
+代码实现：ui->setupUi(this)//ui文件自动产生的
+                  this->setMaximumsize(200,280)//设置最大等于最小让窗口大小固定
+         this->setMinimumsize(200,280)
+         this->setWindowTitle("***")
+                 QFont f("仿宋"，14);
+                  对象->setFont(f);
+3.事件的接受和拒绝，默认都是接受处理的。
+2023.5.19
+1.char是一个字节也就是8位，int是4字节，也就是32位
+2.编译pro生成makefile(由qmake完成)。
+3.QScintilla
+
+2023.5.22
+1.快捷键：ctrl+shift+R:对光标处的符号更改名称，作用到所有使用这个符号的地方
+         Fn+F1:   对光标处的符号给与帮助内容
+2.UI界面：Action编辑器、信号与槽
+3.为应用程序设计图标：Qt开发指南 P48
+4.元对象编译器MOC,在编译前把源程序中Qt性质的程序转换为标准C++兼容的形式，这也是Q_OBJECT宏的原因。
+          MOC 的执行是在预处理器之前
+5.投射是什么：Qt开发指南 P51（不懂）
+6.查一下静态函数在作用上不同于动态函数、公共函数的地方
+7.expression + = “**”；//expression.clear()//expression.chop()删除字符串
+  ui->LineEdit->setText(expression);//btn被点击后的槽函数:实现将文本“**”添加到LineEdit（一个框组件的名字）框上
+8.按钮上放图片   QIcon A("图片路径\\**\\");
+                             对象->setIcon(A);//setStyleSheet(改变按钮背景色)
+
+QImage A;
+A.load(路径)
+对象->setPixmap(QPixmap::fromImage(A));
+
+9.定时器QTimer::singleShot(时长ms，接受者，槽函数)//单次
+QTimer::start();
+QTimer::stop();
+
+2023.5.23
+书GUI
+1.创建一个临时的QString，作为hasAttribute函数参数传递，这可能非常昂贵，因为它涉及到内存分配和将数据复制/转换为QString的内部编码。这个开销可以通过使用QStringLiteral来避免，: QLatin1String更有效
+2.DEFINES = FFF=11  类似于在 C++中有语句：#define FFF 11
+3.构建模式最终是由 pro 文件中设置的 CONFIG+=release 决定的,决定了qt.exe 是 release 版本的.即便Qt Creator选择的是以 debug 模式
+4.pri 文件：该类型文件类似于 C++中的头文件，可以在 pro 文件中使用 include 将其包含进来，因此 pri 文件中的语法与 pro 文件是相同的。
+5.Qt 将模块分为 3 个部分：Qt Essentials(Qt 基本模块)、Qt Add-Ons(Qt 扩展模块)、Qt Tools(Qt开发工具).
+    基本模块中的 QtCore 模块是基础，主要有五大功能，即元对象系统、属性系统、对象模型、对象树、信号和槽
+6.QML 是一种脚本化编程语言。QML 和 Qt Quick 的关系类似于 C++和 Qt 的关系。
+Qt 平台抽象(QPA)是一个插件架构，是 Qt 程序和平台（windows）之间的一个中间接口
+
+2023.5.24
+1.反走样（线条边缘防锯齿）：反走样需要比较复杂的算法，在一些对图像质量要求不是很高的应用中，是不需要进行反走样的。  反走样是用渐变来实现圆滑无齿轮的，所以是不能进行精确到 1 像素的操作的
+   //将Antialiasing属性（也就是反走样）设置为 true。打开了QPainter的反走样功能。
+   painter.setRenderHint(QPainter::Antialiasing, true);
+
+2.状态机，意味着设置一直沿用（除非人为改动）
+3.渐变：在QBrush里面设置
+              线性渐变（QLinearGradient）、辐射渐变（QRadialGradient）和角度渐变（QConicalGradient）。
+       QLinearGradient a(60, 50, 200, 200);//从 (60, 50) 点开始渐变，到 (200, 200) 点止
+       a.setColorAt(0~1的数表示渐变位置, Qt::black);
+
+QConicalGradient::QConicalGradient ( 1, 2, 0 )//渐变中心点设置为 (1, 2)，起始角度为 0。角度渐变
+QPainter::translate(x, y)//将坐标系的原点设置到 (x, y) 点。
+painter.drawEllipse(QPoint(0, 0), r, r);//由于我们已经把坐标原点设置为 (r, r)，因此，在绘制时，圆心应该是新的                坐标 (0, 0)，而不是原来的 (r, r)。
+
+4.改变坐标系前，考虑在临时绘制结束之后再全部恢复到之前的坐标系。对此，QPainter提供了内置的函数：save()和restore()。save()就是保存下当前状态；restore()则恢复上一次保存的结果。这两个函数必须成对出现：
+
+5.在 picture 进行绘制，begin()开始，end()结尾，Qt学习之路2->绘制设备（结尾）
+
+
+2023.5.25
+1.文件写入内容
+        QFile A("file.txt");
+        data.open(QFile::WriteOnly）
+        QTextStream out(&A);
+        out << "The answer is " << 42 ;
+        out  << Qt::showbase<< Qt::hex << 12345678;
+        file.close();
+2.容器中的数据必须是可赋值数据类型：是指具有默认构造函数、拷贝构造函数和赋值运算符的类型
+  QObject及其子类（QWidget、QTimer等）都不是。不能 QList<QWidget>，只能 QList<QWidget *>
+3.贪吃蛇
+4.Graphics View图形视图：分成三个部分：元素 item、场景 scene 和视图 view。
+5.MV架构：区别MVC架构，C变成了委托，只剩MV了，查B站方便
+5.三个类QListWidget、QTreeWidget和QTableWidget
+
+2023.5.29
+QTreeView是最适合应用QFileSystemModel的视图。
+setRootIndex()对模型进行过滤，设置显示哪个目录
+没有目录被选择的，此时路径是非法的，isValid()判断检测路径是否合法
+模型随时可能重新组织其内部的结构，因此模型索引很可能变成不可用的，你需要长期有效的数据片段，必须创建持久索引。
+临时索引（也就是通常使用的索引）由QModelIndex类提供，持久索引则是QPersistentModelIndex类
+定位模型中的数据，我们需要三个属性:行号、列号以及父索引。QModelIndex indexA= model->index(0,0,QModelIndex())
+模型索引由模型在其它组件（视图和委托）请求时才会被创建；
+数据角色,用于区分数据项的不同类型的数据。这些角色定义在Qt::ItemDataRole枚举中。
+Qt::DisplayRole用于视图的文本显示。
+
+视图不仅仅用于展示数据，例如右键菜单以及拖放。提供数据编辑功能
+为了不允许用户输入非法字符。我们使用委托。
+委托的接口由QAbstractItemDelegate定义。在这个类中，委托通过paint()和sizeHint()两个函数渲染用户内容
+标准的QStyledItemDelegate类会在完成编辑时发出closeEditor()信号
+为了将选区应用到模型上，需要将选区提交到选择模型。
+QItemSelectionModel::Deselect则是取消指定的已选择的部分。
+QItemSelectionModel::Clear则会将原来已有的选区全部取消
+
+if(ev->buttons()& Qt::LeftButton)
+
+if(ev->button()==Qt::LeftButton)
+
+QString str = QString ("x = %1   y= %2 ").arg(ev->x()).arg(ev->y());
+qDebug()<<str;
+
+startTimer（间隔毫秒）返回是定时器的 ID，区分不同ID，ev->timerId()
+
+QTimer *timer = new QTimer(this);//常用
+timer->start(500);
+
+e->type() == 鼠标按下/移动/释放。。。。QEvent::MouseButtonPress
+
+
+2023.6.29
+
+1.linux ， 黑马程序员，  p25
+2.C++ ，     千锋教育 ，     已完成
+3. QT ，     传智教育，      p42
+4.C++ QT开发实例 ，Linux后端陈冠希 ，未开始
+5.微信小程序, 黑马程序员，p13
+
+
+
+2023.7.24
+1.学习了XML 了解了schema约束
+2.看了globalsetings.cpp的代码，重新写一下布局，
+3.卡壳的地方：部分函数改了值，布局上大小上没有改变，不知道干嘛的
+4.还需要理一下岳鹏教的。
+点击按钮---mainwindow的函数Grr()---manager来加载插件---manager来创建一个插件实例 ins_Grr(这个实例是Base)
+--- ins_Grr调用自己的虚函数grrInterface（函数名B）（grrInterface(自定义的函数性类型A  形参a)）
+---前提：（在pluginInterface中声明好这个自定义函数性类型 typedef void(*A)(函参类型)）
+--- 虚函数实际上在grr子类中实现（实现内容：这个函数性类型的形参a作为函数名，去调用函数 如：a(函数实参) ）
+--- a(实参)的具体实现在mainwindow（好像可以在任何地方？？？），也就是回调函数，写法void B(函参类型1 形参1，函参类型2 形参2){}
+
+-----总结：用户点击按钮--Grr--int_Grr--grrInterface(B ,B实参)--B(B实参)
+
+2023.7.26
+1.自定义Model : 想写一个继承QAstractItemModel的子类TreeModel,发现debug里有这样的类, 可以直接拿来用吗?先别问，去研究研究debug里的自定义Model咋写的。
+2.写了一类TreeItem debug中也有。
+3.插件建好了，好家伙，代码写不来。都看不懂。。。要疯了。
+4. 老报错：在moc_gsetting ,大概因为gsetting 缺什么头文件吧。 在.h 和.cpp文件加头文件还不一样？插件编译的时候不加载.cpp文件？不懂
+5。什么情况下清除--重新构建有效果？什么时候需要指明执行qmake？
+
+
+2023.7.31
+1.现在的问题是什么？问题是QStandardItemModel 分级目录写的不好要优化，便于后续加选项代码。
+2.怎么你就不难受了？搞清楚Qmap 、枚举,把这个地方的代码今天完成。
+3.现在需要做什么？搞清楚Qmap 枚举,把这个地方的代码今天完成。
+4.想吐。
+
+
+2023.8.3
+CRTP，奇特的递归模板模式：写一个类A，A的爸爸是 B<A> ,即A继承B，并且自己是作为模板参数传递给父类的。是利用子类的信息来生成代码。降低了上面提到的虚函数开销。
+
+
+2023.8.4
+1.被包围在指示器 <sequence>中。这意味着子元素必须以它们被声明的次序出现。
+2.type 属性  :<xs:complexType name="personinfo">
+3. 限定或者拓展某个复合类型的内容模型   :<xs:complexContent>
+4.xml元素仅包含简易的内容（文本和属性）的类型，我们要向此内容添加 simpleContent 元素  ：<xs:simpleContent>
+5.使用 extension 或 restriction 元素来扩展或限制元素的基本简易类型:<xs:extension/restriction base="basetype">
+6.XML 元素含有文本以及其他元素，我们要把mixed 属性设置为 "true"  ： <xs:complexType mixed="true">
+7.为 complexType 元素起一个名字，并让xml 元素在xsd的 type 属性引用 complexType 的这个名称（通过这个方法，若干元素均可引用同一个复合类型）：<xs:element name="letter" type="lettertype"/>  回车   <xs:complexType name="lettertype" mixed="true">
+8.XSD 指示器：7种：定义元素的顺序：All（任意顺序出现，只出现一次）， Choice（非此即彼） ，Sequence（按照特定的顺序出现）， 
+                  定义某个元素出现的次数 ： maxOccurs ，minOccurs， ：如需使某个元素的出现次数不受限制，请使用 maxOccurs="unbounded" 这个声明
+                  定义相关的数批元素：    Group name（必须在 group 声明内部定义一个 all、choice 或者 sequence 元素。引用：<xs:group ref="persongroup"/>）， attributeGroup name（只是不用定义顺序，其他同Group name），
+9.XSD <any> 元素 : <xs:any minOccurs="0"/> :<any> 可用于制作可扩展的文档.使xml元素还可以在结尾添加其他子元素。
+                               <xs:anyAttribute/>是单边的？   <anyAttribute> 允许我们向 元素添加属性  ： <xs:attribute name="gender">  <xs:pattern value="male|female"/>   <person gender="female">...</person>
+
+10.XSD 元素替换(Element Substitution)       <xs:element name="customer" type="custinfo"/>
+                                           <xs:element name="kunde" substitutionGroup="customer"/>  而 "kunde" 元素可替代 "customer" 元素。
+                                                                          为防止其他的元素替换某个指定的元素，请使用 block 属性： block="substitution
+                                           substitutionGroup 中的所有元素（主元素和可替换元素）必须被声明为全局元素，否则就无法工作.可替换元素的类型必须和主元素相同
+
+11. xmlns:xsi: 告知XML解析器根据哪个 schema 来验证此文档   标准的命名空间 (xs)：xmlns:xs="http://www.w3.org/2001/XMLSchema" 固定的。
+   xsi:noNamespaceSchemaLocation  :  规定了 schema 的位置
+
+12.     一个必选属性，我们规定 use="required"。 一般应用到大框架元素中  单边的放在后半截，</xs:complexType>之前：<xs:attribute name="orderid" type="xs:string" use="required"/>
+13. ref 属性来引用
+14. 注释： <!-- 注释 -->
+15. 取别称：<xs:simpleType name="dectype">
+              <xs:restriction base="xs:decimal"/>  //被用于向元素施加限制xs:decimal的别称： dectype
+         </xs:simpleType>
+16.XSD 字符串 数据类型:  xs:string（不额外处理）；  xs:normalizedString（XML 处理器会使用空格替换所有的制表符，即不包含换行符、回车或制表符的字符串） ；xs:token（XML 解析器会移除制表符，不包含换行符、回车或制表符、开头或结尾空格或者多个连续空格的字符串）
+
+17.xs:date 在日期后加一个 "Z" 的方式，使用世界调整时间 ；日期后添加一个正的或负时间的方法，来规定以世界调整时间为准的偏移量，2002-09-24+06:00
+   xs:time，同上 <start>    09:00:00    </start>
+   xs:dateTime ：<startdate>       2002-05-30  T  09:00:00   </startdate>
+xs:duration ：持续时间 P5Y2M10DT15H：表示5 年、2 个月、10 天及 15 小时的周期。
+xs:decimal：十进制数据，可正可负，最大位数是 18 位
+xs:anyURI  ： 用于规定 URI ， 如果某个 URI 含有空格，请用 %20 替换它们。
+
+18.soap、web servicee 、 WSDL
+
+
+2023.8.9
+xmlns:namespace-prefix="namespaceURI"
+
+2023.8.10
+1.打组？
+  <xs:element name='a' type='empty'/>
+  <xs:group name='stanzaErrorGroup'>
+    <xs:choice>
+      <xs:element ref='a'/>
+ 	...
+    </xs:choice>
+  </xs:group>
+
+2.  <xs:import schemaLocation="http://www.w3.org/2001/xml.xsd" namespace="http://www.w3.org/XML/1998/namespace"/>
+
+3.xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns="http://www.example.org/person" 
+   xsi:schemaLocation="http://www.example.org/person person.xsd" 
+
+2023.8.21
+1.在多线程环境下，QMultiHash 不提供线程安全性。在多线程访问 QMultiHash 时，需要使用适当的同步原语（例如 QMutex）以确保线程安全。
+2.nillable="true"：该元素的值可以为空，但是该元素不能省略，也就是说，只能：
+<minzero xsi:nil="true"><minzero>
+而不能直接将minzero这个元素去掉
+（注意：xsi:nil="true"或者xsi:nil="1"应该就是表示这个元素为空）
+minOccurs="0"：该元素可以直接被省略掉，但是不能让该元素的值为空，也就是说，不能：
+<minzero xsi:nil="true"><minzero>
+
+
+2024.1.4，回来上班第一天。
+1.熟悉了一下之前的代码。
+2.简化了全局设置插件里还要读xml文件的冗余。
+3.写了一个模板，用于将字串类型转换为其他所需类型。不过有点关于静态参数的问题问题
+
+2024.1.5
+1.std::string 与QString在QHash中的应用，发现用std::string是不方便的，因哈希表不能使用[]操作符、不能用value(key)来操作，会有报错。所以依旧选择了QString
+2.添加Theme插件UI,用于测试传递颜色QColor，传递int类型，
+
+2024.1.9
+1.优化UI界面，包括侧边滚动条、搜索提示框、写数据类型转换模板
+2.尝试将主程序的设置项和值传递给插件，避免插件再读xml文件，产生消耗。代码量上看差不多，熟悉了接口函数
+3.下班前发现模板无法兼容多种类型转换，只接受单一
+
+2024.1.10
+1.解决昨天遗留的问题，用类模板、#if#elif#endif 跳过编译、用std::share_ptr智能指针均不行
+2.放弃模板，直接在分发处各自具体转换。学会了时间戳（time_t）、 tm结构体、
+3.跟老板汇报情况。提到xsd的限定作用、全局配套图标、色系（要给用户实时观感）、后续任务：做测试、做Linux版本、学以太网、搭建整个界面框架。
+4.遇到的问题，就是按钮背景颜色修改无效 palette.setColor(QPalette::ButtonText, QColor )； button->setPalette(palette); TODO
+
+2024.1.11
+1.读测试文档。
+2.空了去学一下CRTP静态分发
+3测试老崩溃：.QWidget: Must construct a QApplication before a QWidget，
+可是`QTEST_MAIN` 宏会自动创建一个 `QApplication` 对象，并在测试开始前初始化它。为什么还要我创建。。。明天搞
+
+2024.1.12
+1.MOC文件：是一种用于描述C++类的元对象文件，使得这些类可以支持信号与槽机制、动态属性、反射等特性。在Qt中，如果一个类需要使用信号与槽机制或其他元对象特性，就需要在类的声明中添加一些特殊的宏，如Q_OBJECT宏。然后，通过MOC工具对这些类进行预处理，生成相应的元对象文件（通常以.moc文件扩展名保存）。这些生成的MOC文件包含了类的元数据信息，如类名、父类名、信号与槽的定义等。在编译过程中，这些MOC文件会被编译器处理，以便在程序运行时能够正确地使用这些元对象特性。
+
+2.- "LogHr(1)" 表示在发生错误时，记录了一个返回值为1的函数。通常，返回值为非零的函数表示出现了错误或异常。
+-    "tid(2060)" 表示发生错误的线程ID，它用于标识并区分不同的线程。
+
+3.QCOMPARE()用于比较两个值是否相等，而QVERIFY()用于验证条件是否为真。
+4.qmake：使用.pro文件来描述项目的配置和构建过程 ，用于生成Makefile。Makefile是一个文本文件，其中定义了编译源码、链接目标文件等构建任务的规则。主要用于构建Qt项目
+   make通过读取Makefile中的规则来执行构建过程，判断哪些文件需要重新编译，然后调用相应的编译器和链接器进行构建。
+   CMake可以生成各种不同平台和编译器所需的构建脚本，实现在不同平台上的一致性构建。也可以生成Makefile
+
+第一周的总结：
+优化UI界面、写数据类型转换模板、汇报全局设置插件进度，读测试文档、搭建测试框架
+1.模板无法兼容多种类型转换，用类模板、#if#elif#endif 跳过编译、用std::share_ptr智能指针均不行，最终放弃模板，直接在分发处各自具体转换
+2.测试学习，个人认为测试性价比不高
+写清具体测试内容，减少插件内部耦合情况、代码实现
+
+2024. 1.15 周一
+1.做QTest测试，理清需要测试的内容
+
+2024. 1.16 周二
+1. 做QTest测试，做控件的connect测试、点击测试。
+2. 理清测试运行顺序
+
+2024. 1.17 周三
+1.做QTest测试，写文档。
+2.重新查看需求文档
+3. 熟悉一下飞书各板块内容
+
+2024. 1.18 周四
+1. 做全局设置的 google_test
+2. 理清测试方法，顺序，内容。 
+
+20241.22周一
+1.解决模态对话框和MessageBox的冲突
+2.检查内存泄露问题，共享指针不能与裸指针混用，学了弱指针，独占指针
+3.Qt::WA_DeleteOnClose 比 delete好，delete 只会释放窗口本身，并不会自动释放与之相关联的布局对象，Qt::WA_DeleteOnClose会自动删除与之相关的布局和子控件
+
+2024.1.23 周二
+1.indexMap改硬代码为xml自动获取的方式
+2.异步加载
+
+2024 1. 24 周三
+1.分页加载，但是有些逻辑问题，设定，跳转的话需要加载全部？
+2.content窗口和ScrollArea大小不一致，label的换行机制奇怪，不懂那个大小策略，总是设定了没效果....
+
+2024 1.25 周四
+1.解决窗口问题...
+2. #pragma-execution-character-set("utf-8")  //加入UTF-8申明，防止中文乱码
+3.布局器的设置会覆盖直属控件的伸展因子。因此不建议直接设置控件自己的伸展因子属性，而是通过布局器来设置各个子控件或子布局器的伸展因子。
+	① 如果希望控件尺寸在水平或垂直方向固定住，那么把该维度的策略设置为 QSizePolicy::Fixed。
+	② 如果希望控件被动拉伸，其他控件不需要空间时这个控件才会占据新增区域，那么可以用 QSizePolicy::Preferred （尺寸下限是隐含的最小建议尺	寸）或者 QSizePolicy::Minimum（尺寸下限是建议尺寸）。
+	③ 如果希望控件尽量拉伸，主动扩张，那就把策略设置为 QSizePolicy::Expanding。
+
+2024.1.26 周五
+1. qlineargradient()` 函数指定了一个从红色（#FF0000）到绿色（#00FF00）的渐变色。 `(x1: 0, y1: 0, x2: 1, y2: 1)` 表示从左上角到右下角的线性渐变。
+例如：checkBox->setStyleSheet("background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 #FF0000, stop: 1 #00FF00);");
+
+2024.1.29周一
+1.学习cpu大致结构、缓存行（一般64字节，一个long8字节，8个long就可以占满一个缓存行，一个数据左右各7个long的机制可以避免缓存一致性带来的开销）、缓存一致性（很多协议），
+2. 有关线程锁（上锁保证原子性，锁分类为悲观锁(互斥锁机制，进程不允许被打断)和乐观锁（cas机制：检查版本号和时间戳是否变化，没变表示没有其他进程干扰，更新，变了就重新进程）版本号和时间戳解决aba问题）锁机制还有共享、分段、读写、重入。锁策略：公平（先来先上）和非公平（有经验的先上，可能会引起线程饥饿）
+3. 硬盘（可执行文件.exe） ->内存（分配内存端口，进程）->main() ->一条条进cpu ->多个进程，交替运行，需要保存现场，线程切换，需要一个寄存器，另一寄存器存指令。
+4. CPU 内有ALU（算术逻辑单元），ALU读CPU中的寄存器比读外面的内存快一百倍，所以有了缓存分层，cacheL1 L2 L3（一般三层）
+5.垃圾回收算法（GC算法），标记-清除、复制、标记-压缩。现代常用分代算法（年轻代（伊甸、生存区1、生存区2）、老年代）
+6.垃圾收集器 serial（停线，一个人清垃圾） 、parallel（停线，多人清）、CMS（不停线，边运行边清，即并发回收，实际上清不过来还是会停线）。stop_the_world(STW问题 = 停线问题 ，是收集垃圾的重要的需要解决的问题)，现在多用分区机制的分代算法用三色标记的方法进行快速回收内存。
+
+-2024.1.30 周二
+1.完成ScrollArea分段加载
+2.解决 indexTreeViewItemClicked() loadPage()槽函数关系
+3.整理代码
+4.Qt实战，酒店管理系统
+		Navicat Premium 是一款功能强大的数据库管理工具
+		DB接口是指数据库接口: 微软的数据库接口 -> ADO.NET  、java ->JDBC（Java Database Connectivity）;c/c++->ODBC
+5.SQL注入攻击
+
+2024.1.31 周三
+1. QScopedPointer是Qt框架中提供的一个类模板，用于自动管理动态分配的对象的生命周期。它是一种轻量级智能指针，用于替代裸指针，以避免内存泄漏和资源管理问题。QScopedPointer<MyObject> ptr(new MyObject());  在堆上创建组件实例，若label 是建立在堆上的，app 是建立在栈上的。这意味着，label 会在 app 之后析构。也就是说，label 的生命周期长于 app 的生命周期。这可是 Qt 编程的大忌。
+2.const是C++中的一个关键字，用于声明一个常量。常量是指在程序执行过程中其值不会发生变化的数据。使用const关键字可以将变量声明为常量，使其值在声明后不能再被修改。
+	const可以用于以下几种情况：
+	1. 声明常量变量：通过在变量前加上const关键字，可以将变量声明为常量。例如：const int MAX_VALUE = 100; 表示MAX_VALUE是一个常量，其值为100，不能再被修改。
+	2. 函数参数声明为常量：在函数声明和定义中，可以将参数声明为常量，表示在函数内部不会修改该参数的值。例如：void func(const int num); 表示func函数中的num参数是一个常量，在函数内部不能修改其值。
+	3. 函数返回值为常量：可以将函数的返回值声明为常量，在函数调用后，返回值不能被修改。例如：const int func(); 表示func函数的返回值是一个常量，不能修改。
+
+	静态函数（Static Function）是指在类或对象上直接调用的函数，而不需要实例化对象。它具有以下特点：
+	1. 不依赖于实例化对象：静态函数可以直接通过类名访问，不需要通过对象来调用。这意味着无需创建对象实例，就可以直接使用静态函数。
+	2. 不能访问非静态成员：静态函数只能访问静态成员（包括静态变量和静态函数），而不能直接访问非静态成员（实例变量和实例函数）。这是因为静态函数在对象实例化之前就可以被调用，此时还没有实例化对象	的非静态成员。
+	3. 共享数据：静态函数可以访问和修改静态成员变量，这些变量在多个对象之间共享。这意味着静态函数可以用来实现全局状态的管理，或者在类级别上进行数据操作。
+	4. 不可重写：静态函数不能被子类重写（override），因为静态函数属于类本身而不是对象实例。如果在子类中定义了与父类相同的静态函数，那么子类将会隐藏父类的静态函数而不是重写它。
+	5. 在内存中只有一份：静态函数只有一份拷贝存在于内存中，不会为每个实例化的对象创建副本。这样可以节省内存空间。
+	
+	"const QMetaMethod &" 是一个常量引用，用于表示对 QMetaMethod 对象的只读访问。
+
+	Functor（函数对象）是一种可以像函数一样使用的对象。Functor 类型可以用于实现函数指针的替代，且更加灵活，Functor 类型通常用于算法和容器	类中，以提供更灵活的行为和定制化的功能。例如，在 STL 中的算法 std::for_each 可以接受一个 Functor 对象作为参数，用于对容器中的每个元素执	行特定的操作。
+
+	私有函数只能在类的内部被访问和调用，而不能由外部代码直接访问。当确实需要在类外部进行某些操作，可以通过公有成员函数来间接调用私有函数，或者通过友元函数的方式让指定的函数具有访问私有成员的权限。
+
+	将标题栏绘制出来，这种技术称为 DirectUI，也就是无句柄绘制, 用VScode
+
+	在 Qt 中，尽量在构造的时候就指定 parent 对象，
+
+	考虑创建顺序，因为会影响析构顺序。
+
+	AES算法对数据进行加密
+
+	out << (quint32)0xA0B0C0D0 //写入魔术数字，用于标识二进制格式文件的合法性
+	out << (qint32)42; 最好使用 Qt 整型来进行读写，比如程序中的qint32。这保证了在任意平台和任意编译器都能够有相同的行为。
+
+	`QContiguousCache`适用于需要频繁插入、移除和访问数据的场景，例如在实时图形界面中缓存绘图数据或存储临时结果集。它提供了一种高效的方式来管理和操作数据，从而提高应用程序的性能和响应能力。
+
+	哈希表--存储桶
+
+
+capacity()：返回实际已经分配内存的元素数目（对于QHash和QSet，则是散列表中桶的个数）
+reserve(size)：为指定数目的元素显式地预分配内存。
+squeeze()：释放那些不需要真实存储数据的内存空间。
+如果你知道容器大约有多少数据，那么你可以通过调用reserve()函数来减少内存占用。如果已经将所有数据全部存入容器，则可以调用squeeze()函数，释放所有未使用的预分配空间。
+
+对于begin()，end()以及其他一些非 const 遍历器，由于数据可能改变，因此 Qt 会进行深复制。为了避免这一点，要尽可能使用const_iterator、constBegin()和constEnd()。
+
+//GlobalSettingScrollArea 内部考虑考虑表单布局，好像比QFram省消耗
+
+
+2024.3.2 周六 大姑婆去世调休加班
+1.全局设置的设置项是不是可以试试这个：PreviewWindow通常是指一个用于预览内容的窗口或界面，通常用于显示即将发生的变化或用户所选择的选项的预览效果。在软件开发中，PreviewWindow可以用于展示用户对某个项目或设置所做的更改的实际效果，以便用户在确认之前进行最终的调整。
+
+2.全局设置自适应窗口考虑换掉resize,用addStretch()：在Qt中，bottomLayout->addStretch()是用于在布局中添加可拉伸的空间的方法。在Qt中，布局管理器（layout manager）用于管理窗口部件（widgets）的位置和大小，以便它们能够自适应窗口大小的变化。
+
+
+2024.3.21
+1.侧边的活动栏搞好：按钮？？TabBar？
+
+2.连接电脑（服务器）的是交换器，连接交换机的是路由器。ip地址是软件层面。Mac地址是网卡制造商决定的。交换机属于数据链路层，路由器属于网络层。交换器有个Mac地址表（Mac-端口表.） ，路由器有个路由表（ip-端口表）。电脑和路由器还有个arp缓存表（Ip-Mac表）是通过arp请求广播产生并完善的。目标Ip是由DNS服务器提供。针对Ip 有子网、子网掩码、默认网关（不属于同一子网的两台服务器就把数据包给默认网关，一般是个路由器的Mac）
+
+
